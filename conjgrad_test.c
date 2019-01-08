@@ -1,9 +1,9 @@
 /*
-! Emmanuel S. Tsyawo 
-! estsyawo@temple.edu,  estsyawo@gmail.com
-! January 1, 2019
-! Conjugate Gradient algorithm for system of linear equations AX = b
-! Reference: https://en.wikipedia.org/wiki/Conjugate_gradient_method
+  Emmanuel S. Tsyawo 
+  estsyawo@temple.edu,  estsyawo@gmail.com
+  January 1, 2019
+  Conjugate Gradient algorithm for system of linear equations AX = b
+  Reference: https://en.wikipedia.org/wiki/Conjugate_gradient_method
 */
 
 #include <math.h>
