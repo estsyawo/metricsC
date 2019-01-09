@@ -1,9 +1,7 @@
 /*
-<<<<<<< HEAD:conjgrad.c
   Emmanuel S. Tsyawo
 =======
-  Emmanuel S. Tsyawo 
->>>>>>> cfa65b6c5072f29f5dc9ade1fd44fe1e7b6c95b6:conjgrad_test.c
+  Emmanuel S. Tsyawo
   estsyawo@temple.edu,  estsyawo@gmail.com
   January 1, 2019
   Conjugate Gradient algorithm for system of linear equations AX = b
