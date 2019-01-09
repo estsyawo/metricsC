@@ -1,7 +1,5 @@
 /*
   Emmanuel S. Tsyawo
-=======
-  Emmanuel S. Tsyawo
   estsyawo@temple.edu,  estsyawo@gmail.com
   January 1, 2019
   Conjugate Gradient algorithm for system of linear equations AX = b
