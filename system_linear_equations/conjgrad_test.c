@@ -1,22 +1,20 @@
 /*
-  Emmanuel S. Tsyawo
-  estsyawo@temple.edu,  estsyawo@gmail.com
-  January 1, 2019
-  Conjugate Gradient algorithm for system of linear equations AX = b
-  Reference: https://en.wikipedia.org/wiki/Conjugate_gradient_method
+! Emmanuel S. Tsyawo 
+! estsyawo@temple.edu,  estsyawo@gmail.com
+! January 1, 2019
+! Conjugate Gradient algorithm for system of linear equations AX = b
+! Reference: https://en.wikipedia.org/wiki/Conjugate_gradient_method
 */
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define absval(x) ((x) >=0.0 ? (x):(-(x)))
-
+/* Compile using
+ gcc -c conjgrad_test.c matply.c
+ gcc -o execConjGrad_test conjgrad_test.o matply.o
+ ./execConjGrad_test
+ */
+#include "matply.h"
 // conjugate gradient method for solving a system of linear equations AX=b
 
 // prototype function declaration
-double max(double *x, int *n);
-void matply(double *xa, double *xb,double *xab, int *nra, int *nca, int *ncb);
-double dotprod(double *a, double *b, int *n);
+
 void conjgrad(double *A, double *b, double *X, int *n);
 
 // main program
@@ -144,47 +142,4 @@ void conjgrad(double *A, double *b, double *X, int *n)
     free(r);
     free(p);
     free(vec);
-}
-
-
-
-
-// find the maximum in a vector x of length n
-double max(double *x, int *n)
-{
-    double xmax;
-    for(int i=1; i<*n; i++){
-        if(x[i]>x[i-1])
-            xmax=x[i];
-        else
-            xmax=x[i-1];
-    }
-    return xmax;
-}
-
-// multiply two matrices stored as long column major vectors
-void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb)
-{
-    double sum ;
-    for(int i=0; i< *nra;i++){
-        for (int j=0; j<*ncb; j++) {
-            sum = 0.0;
-            for (int k=0; k<*nca; k++) {
-                sum =  (double) (sum + (xa[ k*(*nra)+i])*(xb[ j*(*nca)+k])) ;
-            }
-            xab[ j*(*nra)+i] = sum ;
-        }
-    }
-}
-
-// take the dot product two vectors a, b with length n each.
-double dotprod(double *a, double *b, int *n)
-{
-    int i;
-    double ans;
-    ans = 0.0;
-    for (i=0; i<*n; i++) {
-        ans += a[i]*b[i];
-    }
-    return ans;
 }

@@ -5,15 +5,15 @@
   Gauss Seidel algorithm for system of linear equations AX = b
   Reference: https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method 
 */
+/* Compile using
+ gcc -c gauss_seidel_test.c matply.c
+ gcc -o execGauss_Seidel_test gauss_seidel_test.o matply.o
+ ./execGauss_Seidel_test
+ */
 
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define absval(x) ((x) >=0.0 ? (x):(-(x)))
+#include "matply.h"
 
 // declare function prototypes.
-double max(double *x, int *n);
 void gauss_seidel( double *A, double *b, double *phi, double *dev, int *n);
 
 // main function
@@ -96,17 +96,4 @@ void gauss_seidel( double *A, double *b, double *phi, double *dev, int *n){
         if(mxdev<=tol)
             break;
     }
-}
-
-
-// find the minimum in a vector x of length n
-double max(double *x, int *n){
-    double xmax;
-    for(int i=1; i<*n; i++){
-        if(x[i]>x[i-1])
-            xmax=x[i];
-        else
-            xmax=x[i-1];
-    }
-    return xmax;
 }
