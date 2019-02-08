@@ -28,6 +28,72 @@ void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb){
     }
 }
 
+// take product x'x using only x as input
+// Author: Clara-Christina Gerstner & Emmanuel S. Tsyawo
+void matply_sym(double *x, double *xx, int *nrx, int *ncx)
+{
+    double sum ;
+    int i,j,k;
+    for( i=0; i< *ncx;i++){
+        for ( j=0; j< *ncx; j++) {
+            sum = 0.0;
+            for ( k=0; k<*nrx; k++) {
+                // take inner product of i and j columns of x
+                sum += x[i*(*nrx)+k]*x[j*(*nrx)+k];
+            }
+            xx[ j*(*ncx)+i] = sum ;
+            if (j!=i) {
+                xx[i*(*ncx)+j]=xx[j*(*ncx)+i];
+            }
+        }
+    }
+}
+
+/*
+ Take the product X'Y (dimension [ncx,ncy]) using input X,Y. Note: nrx = nry
+ Transpose is integrated in the function
+ 
+ // Author: Clara-Christina Gerstner & Emmanuel S. Tsyawo
+ */
+void matply_xty(double *x, double *y, double *xty, int *nrx, int *ncx, int *ncy)
+{
+    int i, j, k;
+    double sum;
+    for (i=0; i<*ncx; i++) {
+        for (j=0; j<*ncy; j++) {
+            sum=0.0;
+            for (k=0; k<*nrx; k++) {
+                sum += x[i*(*nrx)+k]*y[j*(*nrx)+k];
+            }
+            xty[j*(*ncx)+i] = sum;
+        }
+    }
+}
+
+
+
+/*
+ Take the product XY' (dimension [nrx,nry]) using input X,Y. Note: ncx = ncy
+ Transpose is integrated in the function
+ 
+ // Author: Clara-Christina Gerstner & Emmanuel S. Tsyawo
+ */
+void matply_xyt(double *x, double *y, double *xyt, int *nrx, int *ncx, int *nry)
+{
+    int i, j, k;
+    double sum;
+    for (i=0; i<*nrx; i++) {
+        for (j=0; j<*nry; j++) {
+            sum=0.0;
+            for (k=0; k<*ncx; k++) {
+                sum += x[k*(*nrx)+i]*y[k*(*nry)+j];
+            }
+            xyt[j*(*nrx)+i] = sum;
+        }
+    }
+}
+
+
 /*
 Take the transpose of a matrix a, store in atrans,
 */

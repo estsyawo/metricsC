@@ -21,9 +21,8 @@ void linreg_cg(double *Y, double *X, double *coefs, int *nrX, int *ncX)
     XY = malloc((*nrX)*sizeof(double));
     tX = malloc(((*nrX)*(*ncX))*sizeof(double));
     
-    trans(X, tX, nrX, ncX); // take X'
-    matply(tX, X, XX, ncX, nrX, ncX); // take X'X
-    matply(tX, Y, XY, ncX, nrX, &ncY); // take X'y
+    matply_sym(X, XX, nrX, ncX); // take X'X
+    matply_xty(X, Y, XY, nrX, ncX, &ncY); // take X'Y
     
     conjgrad(XX, XY, coefs, ncX); // solve X'X*beta = X'Y
     
@@ -46,9 +45,8 @@ void linreg_gs(double *Y, double *X, double *coefs, int *nrX, int *ncX)
     tX = malloc(((*nrX)*(*ncX))*sizeof(double));
     dev = malloc((*nrX)*sizeof(double));
     
-    trans(X, tX, nrX, ncX); // take X'
-    matply(tX, X, XX, ncX, nrX, ncX); // take X'X
-    matply(tX, Y, XY, ncX, nrX, &ncY); // take X'y
+    matply_sym(X, XX, nrX, ncX); // take X'X
+    matply_xty(X, Y, XY, nrX, ncX, &ncY); // take X'Y
     
     gauss_seidel( XX, XY, coefs, dev, ncX); // solve X'X*beta = X'Y
     
@@ -71,9 +69,8 @@ void linreg_sor(double *Y, double *X, double *coefs, int *nrX, int *ncX)
     tX = malloc(((*nrX)*(*ncX))*sizeof(double));
     dev = malloc((*nrX)*sizeof(double));
     
-    trans(X, tX, nrX, ncX); // take X'
-    matply(tX, X, XX, ncX, nrX, ncX); // take X'X
-    matply(tX, Y, XY, ncX, nrX, &ncY); // take X'y
+    matply_sym(X, XX, nrX, ncX); // take X'X
+    matply_xty(X, Y, XY, nrX, ncX, &ncY); // take X'Y
     
     SOR( XX, XY, coefs, dev, ncX); // solve X'X*beta = X'Y
     
