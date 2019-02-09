@@ -3,9 +3,9 @@
 void SOR( double *A, double *b, double *phi, int *n){
     double sig, vl, tol, dev, mxdev, w, zi;
     int i, j, iter, maxiter;
-    tol=1e-10;
-    w = 1.25; // this value can be adjusted on the interval (0,2)
-    maxiter = 1000;
+    tol=1e-7;
+    w = 1.0; // this value can be adjusted on the interval (0,2)
+    maxiter = 2*(*n);
     iter = 0;
     for(;;) { //begin do while loop
         iter +=1;

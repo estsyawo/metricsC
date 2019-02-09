@@ -4,8 +4,6 @@
 #define absval(x) ((x) >=0.0 ? (x):(-(x)))
 
 // declare function prototypes.
-void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb);
-void trans(double *a, double *atrans,int *nra,int *nca);
-void gauss_seidel( double *A, double *b, double *phi, double *dev, int *n);
-void conjgrad(double *A, double *b, double *X, int *n);
-void SOR( double *A, double *b, double *phi, double *dev, int *n);
+void linreg_cg(double *Y, double *X, double *coefs, int *nrX, int *ncX);
+void linreg_gs(double *Y, double *X, double *coefs, int *nrX, int *ncX);
+void linreg_sor(double *Y, double *X, double *coefs, int *nrX, int *ncX);

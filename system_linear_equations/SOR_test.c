@@ -14,7 +14,7 @@
 #include "matply.h"
 
 // prototype function declaration
-void SOR( double *A, double *b, double *phi, double *dev, int *n);
+void SOR( double *A, double *b, double *phi, int *n);
 // main function
 int main()
 {
@@ -22,7 +22,6 @@ int main()
     int const nra = 6;
     int n = 6;
     double *dev, *phi;
-    dev = malloc(nra*sizeof(double));
     phi = malloc(nra*sizeof(double));
     
     printf("\n");
@@ -58,7 +57,7 @@ int main()
     
     printf("Calling the SOR algorithm to solve for Z in AZ=b \n");
     
-    SOR( A, b, phi, dev, &n);
+    SOR( A, b, phi, &n);
     printf("\n");
     printf("The solution is the vector: \n");
     
@@ -71,8 +70,8 @@ int main()
 
 
 // SOR void function
-void SOR( double *A, double *b, double *phi, double *dev, int *n){
-    double sig, vl, tol, mxdev, w, zi;
+void SOR( double *A, double *b, double *phi, int *n){
+    double sig, vl, tol, dev, mxdev, w, zi;
     int i, j, iter, maxiter;
     tol=1e-10;
     w = 1.25; // this value can be adjusted on the interval (0,2)
@@ -96,9 +95,11 @@ void SOR( double *A, double *b, double *phi, double *dev, int *n){
             vl = (double) w*(((b[i]-sig)/A[i*(1+(*n))]) - phi[i]);
             zi = phi[i];
             phi[i] = phi[i] + vl;
-            dev[i] = absval((phi[i]-zi));
+            dev = absval((phi[i]-zi));
+	    if(dev>mxdev){
+	      mxdev = dev;
+	     }
         }// end for i
-        mxdev = (double) max(dev,n);
         if(mxdev<=tol){
             break;
     }

@@ -14,7 +14,7 @@
 #include "matply.h"
 
 // declare function prototypes.
-void gauss_seidel( double *A, double *b, double *phi, double *dev, int *n);
+void gauss_seidel( double *A, double *b, double *phi, int *n);
 
 // main function
 int main()
@@ -23,7 +23,6 @@ int main()
     int const nra = 6;
     int n = 6;
     double *dev, *phi;
-    dev = malloc(nra*sizeof(double));
     phi = malloc(nra*sizeof(double));
 
     printf("\n");
@@ -58,7 +57,7 @@ int main()
 
     printf("Calling the Gauss-Seidel algorithm to solve for Z in AZ=b \n");
 
-    gauss_seidel( A, b, phi, dev, &n);
+    gauss_seidel( A, b, phi, &n);
     printf("\n");
     printf("The solution is the vector: \n");
 
@@ -70,30 +69,42 @@ int main()
 }
 
 
-void gauss_seidel( double *A, double *b, double *phi, double *dev, int *n){
-    double sig, vl, tol, mxdev;
-    int i, j;
-    tol=1e-10;
-    for(;;) { //begin do while loop
-        for(i=0; i<*n; i++){
-            sig = 0.0;
+void gauss_seidel( double *A, double *b, double *x, int *n){
+	double sig, vl, tol, dev, mxdev;
+	int i, j, iter, maxiter;
+	tol=1e-10;
+	iter = 0;
+	maxiter = 1000;
 
-            for(j=0; j<*n; j++ ){
-                if(j!=i){
-                    sig = (double) sig + A[j*(*n) + i]*phi[j];
-                } // end if
-            }// end for j
+for(;;) { //begin do while loop
+	iter +=1;
+	for(i=0; i<*n; i++){
+	  sig = 0.0; dev=0.0; mxdev=0.0;
+		for(j=0; j<*n; j++ ){
+		if(j!=i){
+		sig = (double) sig + A[j*(*n) + i]*x[j];
+		    } // end if
+	}// end for j
 
-            if(absval(A[i*(1+(*n))])<tol){
-                break;
-                // add warning for non-dominant diagonal term
-            }
-            vl = phi[i];
-            phi[i] = (double) ((b[i]-sig) - phi[i])/A[i*(1+(*n))];
-            dev[i] = absval((phi[i]-vl));
-        }// end for i
-        mxdev = (double) max(dev,n);
-        if(mxdev<=tol)
+	if(absval(A[i*(1+(*n))])<tol){
+		printf("Algorithm stopped: non-dominant diagonal term");
+	break;
+	}
+	vl = x[i];
+	x[i] = (double) ((b[i]-sig) - x[i])/A[i*(1+(*n))];
+	dev = absval((x[i]-vl));
+	if(dev>mxdev){
+	    mxdev = dev;
+	    }
+	}// end for i
+
+if(mxdev<=tol){
             break;
+    }
+        if (iter>=maxiter) {
+            printf("Maximum number of iterations reached. Algorithm failed to converge.");
+            break;
+        }
+        
     }
 }
