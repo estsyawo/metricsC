@@ -1,4 +1,4 @@
-// multiply two matrices
+
 #include "matply.h"
 /* xa - vectorised matrix A,
  xb - vectorised matrix B,
