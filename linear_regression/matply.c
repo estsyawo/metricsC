@@ -122,12 +122,11 @@ double dotprod(double *a, double *b, int *n)
 // find the maximum in a vector x of length n
 double max(double *x, int *n)
 {
-    double xmax;
+    double xmax=x[0]; // initialise with first element
     for(int i=1; i<*n; i++){
-        if(x[i]>x[i-1])
+        if(x[i]>xmax){
             xmax=x[i];
-        else
-            xmax=x[i-1];
+        }
     }
     return xmax;
 }
@@ -135,12 +134,11 @@ double max(double *x, int *n)
 // find the minimum in a vector x of length n
 double min(double *x, int *n)
 {
-    double xmin;
+    double xmin=x[0]; // initialise with first element
     for(int i=1; i<*n; i++){
-        if(x[i]<x[i-1])
+        if(x[i]<xmin){
             xmin=x[i];
-        else
-            xmin=x[i-1];
+        }
     }
     return xmin;
 }

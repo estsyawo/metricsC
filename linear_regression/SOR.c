@@ -3,8 +3,8 @@
 void SOR( double *A, double *b, double *phi, int *n){
     double sig, vl, tol, dev, mxdev, w, zi;
     int i, j, iter, maxiter;
-    tol=1e-10;
-    w = 1.25; // this value can be adjusted on the interval (0,2)
+    tol=1e-5;
+    w = 1.0; // this value can be adjusted on the interval (0,2)
     maxiter = 1000;
     iter = 0;
     for(;;) { //begin do while loop
@@ -34,7 +34,7 @@ void SOR( double *A, double *b, double *phi, int *n){
             break;
     }
         if (iter>=maxiter) {
-            printf("Maximum number of iterations reached. Algorithm failed to converge.\n");
+            printf("Maximum number of iterations reached.\n");
             break;
         }
         
