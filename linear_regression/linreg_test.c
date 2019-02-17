@@ -9,37 +9,51 @@
  */
 /*
  Compile using
- gcc -c linreg_test.c linreg.c matply.c conjgrad.c gauss_seidel.c SOR.c
- gcc -o execLinreg_Test linreg_test.o linreg.o matply.o conjgrad.o gauss_seidel.o SOR.o
+ gcc -c linreg_test.c linreg.c matply.c solve.c utils.c read_txt.c
+ gcc -o execLinreg_Test linreg_test.o linreg.o matply.o solve.o utils.o read_txt.o
  ./execLinreg_Test
  */
 
 
 #include "linreg.h"
+#include "utils.h"
 
 // main function for code execution
 int main( )
 {
-    int nrX = 10;
-    int ncX = 2;
-    double *coefs;
+    int nrX = 1000;
+    int ncX = 6;
+    double *coefs, *X, *Y;
+    char *datname;
     
-    coefs=malloc(ncX*sizeof(double));
+    // allocate memory
+    coefs=allocvector(ncX); Y = allocvector(nrX);
     
-    // design matrix X and response Y
-    double X[20] = {1,1,1,1,1,1,1,1,1,1,
-        -1.48,1.58,-0.96,-0.92,-2,-0.27,-0.32,-0.63,-0.11,0.43};
-    double Y[10] = {2.48,-0.58,1.96,1.92,3,1.27,1.32,1.63,1.11,0.57};
+    datname= "dat_lreg.txt"; // name of data set in folder
+    // read in data
+    X=read_txt(datname, &nrX, &ncX);
     
-    printf("The vector of true parameters is [1,-1].\n Calling linreg_cg( ) ... \n");
+    // prepare data for regression
+    dat_read_prep(datname, X, Y, &nrX, &ncX);
+   
+    // true parameter values to be solved for
+    double trcoefs[6]={1.2,0.5,1.0,0.0,1.5,-0.5};
+    
+    printf("True parameter values to be solved for");
+    printv(trcoefs,&ncX);
+    
+    printf("Calling linear regression with the conjugate gradient solver linreg_cg( ) ... \n");
     linreg_cg(Y, X, coefs, &nrX, &ncX);
-    printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
-    printf("The vector of true parameters is [1,-1].\n Calling linreg_gs( ) ... \n");
+    printv(coefs,&ncX);
+    //printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
+    printf("Calling linear regression with the Gauss-Seidel solver linreg_gs( ) ... \n");
     linreg_gs(Y, X, coefs, &nrX, &ncX);
-    printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
-    printf("The vector of true parameters is [1,-1].\n Calling linreg_sor( ) ... \n");
+    printv(coefs,&ncX);
+    //printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
+    printf("Calling linear regression with the SOR solver linreg_sor( ) ... \n");
     linreg_sor(Y, X, coefs, &nrX, &ncX);
-    printf("The solution is beta = [%.2f,%.2f]\n",coefs[0],coefs[1]);
+    printv(coefs,&ncX);
+    //printf("The solution is beta = [%.2f,%.2f]\n",coefs[0],coefs[1]);
     puts(" ");
 }
 

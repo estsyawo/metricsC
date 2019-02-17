@@ -1,17 +1,17 @@
 #include "matply.h"
 
 void SOR( double *A, double *b, double *phi, int *n){
-    double sig, vl, tol, dev, mxdev, w, zi;
+    double sig, vl, tol, dev, mxdev, w;
     int i, j, iter, maxiter;
     tol=1e-7;
     w = 1.0; // this value can be adjusted on the interval (0,2)
-    maxiter = 2*(*n);
+    maxiter = 100;
     iter = 0;
     for(;;) { //begin do while loop
         iter +=1;
         for(i=0; i<*n; i++){
             sig = 0.0;
-            
+            dev = 0.0; mxdev = 0.0; // reset in order to check convergence
             for(j=0; j<*n; j++ ){
                 if(j!=i){
                     sig = (double) sig + A[j*(*n) + i]*phi[j];
@@ -23,18 +23,17 @@ void SOR( double *A, double *b, double *phi, int *n){
             }
             
             vl = (double) w*(((b[i]-sig)/A[i*(1+(*n))]) - phi[i]);
-            zi = phi[i];
             phi[i] = phi[i] + vl;
-            dev = absval((phi[i]-zi));
-	    if(dev>mxdev){
-	      mxdev = dev;
-	     }
+            dev = absval(vl);
+            if(dev>mxdev){
+                mxdev = dev; // update infinity norm of deviations
+            }
         }// end for i
-        if(mxdev<=tol){
+        if(mxdev<=tol){ // check for convergence
             break;
-    }
+        }
         if (iter>=maxiter) {
-            printf("Maximum number of iterations reached. Algorithm failed to converge.\n");
+            printf("Warning: Maximum number of iterations reached.\n");
             break;
         }
         

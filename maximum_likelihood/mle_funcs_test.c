@@ -16,7 +16,7 @@
 
 int main()
 {
-    int i,j, nr=1000, nc = 6; // dimension of data set
+    int nr=1000, nc = 6; // dimension of data set
     double *X, *Y, *score, *beta, *hessian, *tempvec,*tempmat,v;
     char *datname;
     
