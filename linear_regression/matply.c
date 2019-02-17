@@ -4,7 +4,7 @@ This file contains functions for matrix and vector operations and other useful
 functions
 */
 
-# include <math.h>
+# include "matply.h"
 
 /* xa - vectorised matrix A, 
   xb - vectorised matrix B,
@@ -14,7 +14,7 @@ functions
   ncb - number of columns in B
 */
 
-
+// take a product xab = xa*xb
 void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb){
     double sum ;
     for(int i=0; i< *nra;i++){
@@ -28,7 +28,7 @@ void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb){
     }
 }
 
-// take product x'x using only x as input
+// take product x'x using only x as input; output ncx x ncx
 // Author: Clara-Christina Gerstner & Emmanuel S. Tsyawo
 void matply_sym(double *x, double *xx, int *nrx, int *ncx)
 {
@@ -97,7 +97,7 @@ void matply_xyt(double *x, double *y, double *xyt, int *nrx, int *ncx, int *nry)
 /*
 Take the transpose of a matrix a, store in atrans,
 */
-void trans(double *a, double *atrans,int *nra,int *nca)
+void trans(double *a, double *atrans, int *nra,int *nca)
 {
   int i,j;
     for(i=0;i<*nra;i++){
@@ -117,6 +117,33 @@ double dotprod(double *a, double *b, int *n)
         ans += a[i]*b[i];
     }
     return ans;
+}
+
+// take the product of a scalar and matrix/vector ax
+void matply_ax(double *x, double *a, double *ax, int *n)
+{
+    int i;
+    for (i=0; i<*n; i++) {
+        ax[i] = (*a)*x[i];
+    }
+}
+
+// add matrices/vectors xm = xa + xb
+void vecadd(double *xa, double *xb, double *xm, int *n)
+{
+    int i;
+    for (i=0; i<*n; i++) {
+        xm[i] = xa[i] + xb[i];
+    }
+}
+
+// add matrices/vectors xm = xa - xb
+void vecsub(double *xa, double *xb, double *xm, int *n)
+{
+    int i;
+    for (i=0; i<*n; i++) {
+        xm[i] = xa[i] - xb[i];
+    }
 }
 
 // find the maximum in a vector x of length n
@@ -143,3 +170,27 @@ double min(double *x, int *n)
     return xmin;
 }
 
+// compute p-norm of a vector x
+double norm_lp(double *x, int *n, int *p)
+{
+    double v;
+    int i;
+    for (i=0; i<*n; i++) {
+        v += pow(absval(x[i]), (double) *p);
+    }
+    return pow(v,(double) 1/(*p));
+}
+
+// compute the infinity norm of a vector x
+double norm_max(double *x, int *n)
+{
+    double v;
+    double xmax=absval(x[0]); // initialise with first element
+    for(int i=1; i<*n; i++){
+        v = absval(x[i]);
+        if(v>xmax){
+            xmax=v;
+        }
+    }
+    return xmax;
+}

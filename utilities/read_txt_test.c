@@ -17,15 +17,23 @@
 int main()
 {
     int i,j, nr=12, nc = 11;
-    double *data;
+    double *X, *Y;
     char *datname = "data.txt";
     
-    data=read_txt(datname, &nr, &nc );
+    Y = allocvector(nr); // allocate memory to Y
     
-    for (i=0; i<nr; i++) {
-        for (j=0; j<nc; j++) {
-            printf(" %.1f ",data[j*nr + i]);
-        }
-        puts("");
-    }
+    X=read_txt(datname, &nr, &nc );
+    
+    printf("Print out data set \n");
+    printm(X, &nr, &nc);
+    
+    printf("Now assign first column to vector Y and replace with 1's in X\n");
+    
+    dat_read_prep(datname, X, Y, &nr, &nc);
+    puts("");
+    printf("Print out matrix X");
+    printm(X, &nr, &nc);
+    
+    printf("Print out vector Y \n");
+    printv(Y, &nr);
 }

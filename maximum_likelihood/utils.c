@@ -16,9 +16,9 @@ void printv(double *vec, int *n)
     for (i=0; i<*n; i++) {
         v = vec[i];
         if (v>=0.0) {
-            printf(" %.2f \n",v);
+            printf(" %3.3f \n",v);
         }else{
-            printf("%.2f \n",v);
+            printf("%3.3f \n",v);
         }
     }
     puts(" ");
@@ -34,9 +34,9 @@ void printm(double *mat, int *nr, int *nc)
         for (j=0; j<*nc; j++) {
             v = mat[j*(*nr) + i];
             if (v>=0.0) {
-                printf(" %.2f ",v);
+                printf(" %3.3f ",v);
             }else{
-                printf("%.2f ",v);
+                printf("%3.3f ",v);
             }
         }
         puts(" ");
