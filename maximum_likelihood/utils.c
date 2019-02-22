@@ -16,15 +16,15 @@ void printv(double *vec, int *n)
     for (i=0; i<*n; i++) {
         v = vec[i];
         if (v>=0.0) {
-            printf(" %3.3f \n",v);
+            printf(" %.2f \n",v);
         }else{
-            printf("%3.3f \n",v);
+            printf("%.2f \n",v);
         }
     }
     puts(" ");
 }
 
-// print as matrix
+// print as matrix for doubles
 void printm(double *mat, int *nr, int *nc)
 {
     int i,j;
@@ -34,21 +34,40 @@ void printm(double *mat, int *nr, int *nc)
         for (j=0; j<*nc; j++) {
             v = mat[j*(*nr) + i];
             if (v>=0.0) {
-                printf(" %3.3f ",v);
+                printf(" %.2f ",v);
             }else{
-                printf("%3.3f ",v);
+                printf("%.2f ",v);
             }
         }
         puts(" ");
     }
     puts(" ");
 }
+// print as matrix for integers
+void printm_int(int *mat, int *nr, int *nc)
+{
+    int i,j,v;
+    puts(" ");
+    for (i=0; i<*nr; i++) {
+        for (j=0; j<*nc; j++) {
+            v = mat[j*(*nr) + i];
+            if (v>=0) {
+                printf(" %d ",v);
+            }else{
+                printf("%d ",v);
+            }
+        }
+        puts(" ");
+    }
+    puts(" ");
+}
+
 //*************************************************************************************//
 // allocate a vector of size n to a pointer
 double *allocvector(int n)
 {
     double *vec;
-    vec=(double *) malloc((size_t)((n+1)*sizeof(double)));
+    vec=(double *) malloc((size_t)((n)*sizeof(double)));
     if (!vec) {
         printf("Failure to allocate vector\n");
         exit(1);
@@ -57,7 +76,7 @@ double *allocvector(int n)
 }
 //*************************************************************************************//
 
-// initialise vector vec of length n to all a's
+// initialise vector vec of length n to all scalar a's
 void init_vec (double *vec, int *n, double *a)
 {
     int i;
@@ -66,6 +85,36 @@ void init_vec (double *vec, int *n, double *a)
     }
 }
 
+//*************************************************************************************//
+// compare functions for use in qsort()
+
+// compare function for an array of integers
+int cmpfunc_int(const void * a, const void * b) {
+    return ( *(int*)a - *(int*)b );
+}
+
+// compare function for an array of doubles
+int cmpfunc_d (const void * a, const void * b)
+{
+    if (*(double*)a > *(double*)b)
+        return 1;
+    else if (*(double*)a < *(double*)b)
+        return -1;
+    else
+        return 0;
+}
+
+// a wrapper for qsort() for double
+void sort(double *x, int n)
+{
+    qsort(x, n, sizeof(double), cmpfunc_d);
+}
+
+// a wrapper for qsort() for integers
+void sort_int(int *x, int n)
+{
+    qsort(x, n, sizeof(int), cmpfunc_int);
+}
 //*************************************************************************************//
 /*
  Probability density and cumulative density functions

@@ -23,7 +23,7 @@ int main( )
 {
     int nrX = 1000;
     int ncX = 6;
-    double *coefs, *X, *Y;
+    double *coefs, *X, *Y, z=-0.01;
     char *datname;
     
     // allocate memory
@@ -45,11 +45,11 @@ int main( )
     printf("Calling linear regression with the conjugate gradient solver linreg_cg( ) ... \n");
     linreg_cg(Y, X, coefs, &nrX, &ncX);
     printv(coefs,&ncX);
-    //printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
+    
     printf("Calling linear regression with the Gauss-Seidel solver linreg_gs( ) ... \n");
     linreg_gs(Y, X, coefs, &nrX, &ncX);
     printv(coefs,&ncX);
-    //printf("The solution is beta = [%.2f,%.2f]\n\n",coefs[0],coefs[1]);
+    
     printf("Calling linear regression with the SOR solver linreg_sor( ) ... \n");
     linreg_sor(Y, X, coefs, &nrX, &ncX);
     printv(coefs,&ncX);

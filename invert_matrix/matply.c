@@ -3,7 +3,7 @@
 This file contains functions for matrix and vector operations and other useful
 functions
 */
-
+//_ex functions extract vectors/matrices from matrices before operating on them
 # include "matply.h"
 
 /* xa - vectorised matrix A, 
@@ -119,6 +119,19 @@ double dotprod(double *a, double *b, int *n)
     return ans;
 }
 
+// compute dot products of two columns taken from matrices a and b of nr
+// number of rows each. column indices are ica and icb
+double dotprod_col_ex(double *a, double *b, int *nr, int *ica, int *icb)
+{
+    int i;
+    double ans;
+    ans = 0.0;
+    for (i=0; i<*nr; i++) {
+        ans += a[(*ica-1)*(*nr)+i]*b[(*icb-1)*(*nr)+i];
+    }
+    return ans;
+}
+
 // take the product of a scalar and matrix/vector ax
 void matply_ax(double *x, double *a, double *ax, int *n)
 {
@@ -194,3 +207,5 @@ double norm_max(double *x, int *n)
     }
     return xmax;
 }
+
+

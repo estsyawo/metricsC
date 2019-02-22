@@ -64,6 +64,8 @@ int main()
     printf("The dot product of xa and xb = %.2f \n", dotprod(xa, xb, &nlab));
     puts(" ");
     
+    printf("Printing the first two columns of xa and xb = %2.2f, both of 2 rows \n",dotprod_col_ex(xa, xb, &nra, &ns, &ns));
+    
     printf("Taking scalar-matrix/vector product ax =a*x \n");
     matply_ax(xa, &a, txab, &nlab);
     printv(txab, &nlab);
