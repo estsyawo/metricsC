@@ -9,3 +9,4 @@ void solve(double *A, double *b, double *X, int *n, char *type);
 void gauss_seidel( double *A, double *b, double *phi, int *n);
 void conjgrad(double *A, double *b, double *X, int *n);
 void SOR( double *A, double *b, double *phi, int *n);
+void lsqqr( double *a, double *b, double *coef, int *nrow,  int *ncol); // QR least squares

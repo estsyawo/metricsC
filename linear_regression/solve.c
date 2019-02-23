@@ -14,6 +14,7 @@
 //**************************************************************************************//
 
 #include "solve.h"
+#include "matply.h"
 
 /*  
   Input:
@@ -27,7 +28,7 @@
 void solve(double *A, double *b, double *X, int *n, char *type)
 {
   switch(*type){
-    	case 'C':
+    case 'C':
 	  conjgrad(A, b, X, n);
 	  break;
 	case 'G':
@@ -36,6 +37,9 @@ void solve(double *A, double *b, double *X, int *n, char *type)
 	case 'S':
 	  SOR(A, b, X, n);
 	  break;
+    case 'Q':
+      lsqqr( A, b, X, n, n);
+      break;
 	default :
 	  printf("Invalid type of solver.\n");
   }	
@@ -162,7 +166,7 @@ void gauss_seidel( double *A, double *b, double *x, int *n){
 //**************************************************************************************//
 
 void SOR( double *A, double *b, double *phi, int *n){
-    double sig, vl, tol, dev, mxdev, w;
+    double sig, vl, tol, dev, mxdev, w, zi;
     int i, j, iter, maxiter;
     tol=1e-7;
     w = 1.0; // this value can be adjusted on the interval (0,2)
@@ -200,12 +204,74 @@ void SOR( double *A, double *b, double *phi, int *n){
         
     }
 }
-/*
- Compile using: SOR.c matply.c
- */
-
 
 //**************************************************************************************//
+
+
+/* QR algorithm accessed from:
+ Source: http://www.math.umd.edu/~mariakc/teaching-2/householder.c
+ on February 22, 2019
+ */
+
+void lsqqr( double *a, double *b, double *coef, int *nrow,  int *ncol) {
+    int i,m,l;
+    double normx, aaux, baux;
+    double aux[*ncol], u[*nrow];
+    double c[*nrow]; /* weight matrix */
+    
+    /* put larger weights at the ends interval to reduce the error at the ends of the interval */
+    /* Ax = b   <==> CAx = Cb where C = diag{c[0],c[1],...,c[nrow]}  */
+    for( m=0; m<*nrow; m++ ) c[m]=1.0;
+    for( m=0; m<min_2((*nrow)/2,10); m++ ) c[m]=(10-m);
+    for( m=(*nrow)-1; m>max_2((*nrow)/2,(*nrow)-9); m-- ) c[m]=(9-(*nrow)+m);
+    /* compute CA and Cb */
+    for( m=0; m<*nrow; m++ ) {
+        for( i=0; i<*ncol; i++ ) {
+            (*(a+i+m*(*ncol)))*=c[m];   /* a_{m,i} = a_{m,i} * c_m */
+        }
+        b[m]*=c[m];   /* b_m = b_m * c_m */
+    }
+    
+    /* Start the QR algorithm via Householder reflections */
+    for( i=0; i<*ncol; i++ ) {
+        /*form vector u=House(a(i:nrow,i))*/
+        normx=0.0;
+        for( m=0; m<*nrow-i; m++ ) {
+            aaux=*(a+(i+m)*(*ncol)+i);  /* aaux = a_{m+i,i} */
+            normx+=aaux*aaux;  /* normx = normx + aaux*aaux */
+        }
+        aaux=*(a+i*(*ncol)+i);    /* aaux = a_{i,i} */
+        u[0]=aaux+sgn(aaux)*sqrt(normx);
+        for( m=1; m<*nrow-i; m++ ) u[m]=*(a+(i+m)*(*ncol)+i);  /* u[m] = a_{i+m,i} */
+        normx=0.0;
+        for( m=0; m<*nrow-i; m++ ) normx+=u[m]*u[m];   /* normx = normx + u[m]*u[m] */
+        /* compute (I-2uu^t)a(i:nrow,i:ncol) */
+        for( l=0; l<*ncol-i; l++ ) {
+            aux[l]=0.0;
+            for( m=0; m<*nrow-i; m++ )  {
+                aux[l]+=u[m]*(*(a+(i+m)*(*ncol)+i+l));  /* aux[l] = aux[l] + u[m]*a_{i+m,i+l} */
+            }
+            aux[l]*=(-2.0/normx);     /* aux[l] = -2*aux[l]/normx */
+            for( m=0; m<*nrow-i; m++ )  {
+                *(a+(i+m)*(*ncol)+i+l)+=u[m]*aux[l];      /* a_{i+m,i+l} = a_{i+m,i+l} + u[m]*aux[l] */
+            }
+        }
+        /* compute (Q^T)*b */
+        baux=0.0;
+        for( m=0; m<*nrow-i; m++ ) baux+=u[m]*b[i+m];  /* baux = baux + u[m]*b[i+m] */
+        
+        baux*=(-2.0/normx);
+        for( m=0; m<*nrow-i; m++ ) b[i+m]+=baux*u[m];  /* b[i+m] = b[i+m] + baux*u[m] */
+    }
+    /* find the coefficients*/
+    for( i=(*ncol)-1; i>=0; i-- ) {
+        baux=0.0;
+        for( m=i+1; m<*ncol; m++ ) {
+            baux+=(*(a+i*(*ncol)+m))*coef[m];    /* baux = baux + a_{j,m}*coef[m] */
+        }
+        coef[i]=(b[i]-baux)/(*(a+i*(*ncol)+i));
+    }
+}
 
 
 

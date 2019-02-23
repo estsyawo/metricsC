@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define absval(x) ((x) >=0.0 ? (x):(-(x)))
+#define sgn(a) ((a) == 0 ? 0 : ((a) > 0  ? 1 : -1 )) // sign function
+#define max_2(a,b) ((a) >= (b) ? (a) : (b))  // max of two values
+#define min_2(a,b) ((a) <= (b) ? (a) : (b))  // min of two values
+
 
 // declare function prototypes.
 void matply(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb);

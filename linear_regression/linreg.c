@@ -70,3 +70,24 @@ void linreg_sor(double *Y, double *X, double *coefs, int *nrX, int *ncX)
     free(XX);
     free(XY);
 }
+
+// a wrapper for lsqqr - least squares via QR decomposition ||X*coefs-Y||^2
+void linreg_qrc(double *Y, double *X, double *coefs, int *nrX, int *ncX)
+{
+    double *XX, *tX, *XY, *dev;
+    int ncY;
+    
+    ncY = 1;
+    // allocate memory
+    XX = allocvector((*ncX)*(*ncX));
+    XY = allocvector(*nrX);
+    
+    matply_sym(X, XX, nrX, ncX); // take X'X
+    matply_xty(X, Y, XY, nrX, ncX, &ncY); // take X'Y
+
+    lsqqr(XX, XY, coefs, ncX, ncX);
+    
+    // free allocated memory
+    free(XX);
+    free(XY);
+}
