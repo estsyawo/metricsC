@@ -92,7 +92,22 @@ void matply_xyt(double *x, double *y, double *xyt, int *nrx, int *ncx, int *nry)
         }
     }
 }
-
+// take product xa*xb excluding column ica in xa and row ica in xb
+void matply_sk1(double *xa, double *xb,double *xab, int *nra, int *nca,int *ncb, int *ica)
+{
+    double sum ;
+    for(int i=0; i< *nra;i++){
+        for (int j=0; j<*ncb; j++) {
+            sum = 0.0;
+            for (int k=0; k<*nca; k++) {
+                if (k!=*ica) { //skip column ica in xa and row ica in xb
+                    sum =  (double) (sum + (xa[ k*(*nra)+i])*(xb[ j*(*nca)+k])) ;
+                }
+            }
+            xab[ j*(*nra)+i] = sum ;
+        }
+    }
+}
 
 /*
 Take the transpose of a matrix a, store in atrans,

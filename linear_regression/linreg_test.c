@@ -23,7 +23,7 @@
 int main( )
 {
     int nrX = 1000, ncX = 6, ny=1;
-    double *coefs, *X, *Y, z=-0.01;
+    double *coefs, *X, *Y, z=0.0;
     char *datname;
     
     // allocate memory
@@ -58,6 +58,15 @@ int main( )
     linreg_qrc(Y, X, coefs, &nrX, &ncX);
     printm(coefs,&ny,&ncX);
     puts(" ");
+    
+    
+    printf("Calling linear regression via coordinate descent algorithm linreg_cord( ) ... \n");
+    init_vec (coefs, &ncX, &z);
+    linreg_cord(Y, X, coefs, &nrX, &ncX);
+    printm(coefs,&ny,&ncX);
+    puts(" ");
+     
+    
 }
 
 

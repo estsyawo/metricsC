@@ -16,7 +16,7 @@
 
 int main()
 {
-    int nra, nca,nlx, ncb,i,j;
+    int nra, nca,nlx, ncb,ica,i,j;
     double *xab, *txab,*xx, *xyt, *xty, a, *zz;
     int nlab=6, ns = 1;
     nra = 2; nca = 3; ncb = nra;
@@ -56,6 +56,11 @@ int main()
     
     matply_xyt(xa, xb, xyt, &nra, &nca, &nra);
     printm(xyt, &nra, &nra);
+    
+    printf("taking a product xa*xb and skipping the 2nd column in xa and 2nd row in xb\n");
+    ica = 1;
+    matply_sk1(xa, xb, xab, &nra, &nca, &ncb, &ica);
+    printm(xab, &nra, &ncb);
 
     printf("Taking the transpose of xab\n");
     trans(xab, txab, &nra, &ncb);

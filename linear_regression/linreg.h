@@ -8,3 +8,4 @@ void linreg_cg(double *Y, double *X, double *coefs, int *nrX, int *ncX);
 void linreg_gs(double *Y, double *X, double *coefs, int *nrX, int *ncX);
 void linreg_sor(double *Y, double *X, double *coefs, int *nrX, int *ncX);
 void linreg_qrc(double *Y, double *X, double *coefs, int *nrX, int *ncX);
+void linreg_cord(double *Y, double *X, double *coefs, int *nrX, int *ncX);
