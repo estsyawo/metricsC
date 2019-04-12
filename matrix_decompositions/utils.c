@@ -74,20 +74,6 @@ double *allocvector(int n)
     }
     return vec;
 }
-
-//*************************************************************************************//
-// allocate a vector of type int of size n to a pointer
-int *allocvec_int(int n)
-{
-    int *vec;
-    vec=(int *) malloc((size_t)((n)*sizeof(int)));
-    if (!vec) {
-        printf("Failure to allocate vector\n");
-        exit(1);
-    }
-    return vec;
-}
-
 //*************************************************************************************//
 
 // initialise vector vec of length n to all scalar a's

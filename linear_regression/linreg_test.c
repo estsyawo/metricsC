@@ -22,12 +22,12 @@
 // main function for code execution
 int main( )
 {
-    int nrX = 1000, ncX = 6, ny=1;
-    double *coefs, *X, *Y, z=0.0;
+    int nrX = 1000, ncX = 6, ny=1,i,j;
+    double *coefs, *X, *Y, *R, z=0.0;
     char *datname;
     
     // allocate memory
-    coefs=allocvector(ncX); Y = allocvector(nrX);
+    coefs=allocvector(ncX); Y = allocvector(nrX); R = allocvector(ncX*ncX);
     
     datname= "dat_lreg.txt"; // name of data set in folder
     // read in data
@@ -65,7 +65,22 @@ int main( )
     linreg_cord(Y, X, coefs, &nrX, &ncX);
     printm(coefs,&ny,&ncX);
     puts(" ");
-     
+    
+    printf("Linear regression with QR using Modified Gram-Schmidt Algorithm. \n First with version that does not overwrite X with Q\n");
+    linreg_qrMGS(Y, X, coefs, R, &nrX, &ncX);
+    printf("The solution is \n");
+    printm(coefs,&ny,&ncX);
+    
+    // read in data
+    X=read_txt(datname, &nrX, &ncX);
+    
+    // prepare data for regression
+    dat_read_prep(datname, X, Y, &nrX, &ncX);
+
+    printf("Linear regression with QR using Modified Gram-Schmidt Algorithm. \n Then with version that overwrites X with Q\n");
+    linreg_qrMGS2(Y, X, coefs, R, &nrX, &ncX);
+    printf("The solution is \n");
+    printm(coefs,&ny,&ncX);
     
 }
 

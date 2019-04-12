@@ -126,7 +126,7 @@ void trans(double *a, double *atrans, int *nra,int *nca)
 double dotprod(double *a, double *b, int *n)
 {
     int i;
-    double ans;
+    double ans=0.0;
     ans = 0.0;
     for (i=0; i<*n; i++) {
         ans += a[i]*b[i];
@@ -139,7 +139,7 @@ double dotprod(double *a, double *b, int *n)
 double dotprod_col_ex(double *a, double *b, int *nr, int *ica, int *icb)
 {
     int i;
-    double ans;
+    double ans=0.0;
     ans = 0.0;
     for (i=0; i<*nr; i++) {
         ans += a[(*ica-1)*(*nr)+i]*b[(*icb-1)*(*nr)+i];
@@ -201,13 +201,25 @@ double min(double *x, int *n)
 // compute p-norm of a vector x
 double norm_lp(double *x, int *n, int *p)
 {
-    double v;
+    double v=0.0;
     int i;
     for (i=0; i<*n; i++) {
         v += pow(absval(x[i]), (double) *p);
     }
     return pow(v,(double) 1/(*p));
 }
+
+// compute the p-norm of a vector x from the n1'th element to the n2'th element
+double norm_lp_ex(double *x, int *p, int *n1, int *n2)
+{
+    double v=0.0;
+    int i;
+    for (i=(*n1-1); i<*n2; i++) {
+        v += pow(absval(x[i]), (double) *p);
+    }
+    return pow(v,(double) 1/(*p));
+}
+
 
 // compute the infinity norm of a vector x
 double norm_max(double *x, int *n)

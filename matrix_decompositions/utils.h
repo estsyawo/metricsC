@@ -24,7 +24,6 @@ double p_norm(double x, double mu, double sig);
 
 // memory allocation
 double *allocvector(int n);
-int *allocvec_int(int n); // of type int
 
 // vector/matrix initialisation
 void init_vec (double *vec, int *n, double *a);

@@ -18,7 +18,7 @@ int main()
 {
     int nra, nca,nlx, ncb,ica,i,j;
     double *xab, *txab,*xx, *xyt, *xty, a, *zz;
-    int nlab=6, ns = 1;
+    int nlab=6, ns = 1,n1=2,n2=5;
     nra = 2; nca = 3; ncb = nra;
     nlx = 9; a = 2.1;
     
@@ -91,6 +91,8 @@ int main()
     
     printf("The p = %d norm of vector xb equals %3.3f\n",nra,norm_lp(xb,&nlab,&nra));
     
+    printf("The p = %d norm of elements 2 through 5 of vector xb equals %3.6f\n",nra,norm_lp_ex(xb, &nra, &n1, &n2));
+    puts("");
     printf("The vector xb is \n");
     printv(xb,&nlab);
     

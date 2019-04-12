@@ -24,4 +24,5 @@ void vecsub(double *xa, double *xb, double *xm, int *n);
 double max(double *x, int *n);
 double min(double *x, int *n);
 double norm_lp(double *x, int *n, int *p);
+double norm_lp_ex(double *x, int *p, int *n1, int *n2);
 double norm_max(double *x, int *n);

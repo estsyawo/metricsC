@@ -5,4 +5,6 @@ metricsC is a project that includes building blocks and functions for estimating
 
 The folders organise the programmes into categories/models. The _test.c files contain programmes for implementing the models in C. Also, each  _test.c file contains gcc terminal commands (as comments) for compiling and executing the programmes. For different compilers, a little adaption of the commands may be required.
 
+The last folder zUnder_Development contains code under development. New routines are developed in this folder before added to their right category so it is not advised to run programmes from this folder. 
+
 
